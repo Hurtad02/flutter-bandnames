@@ -17,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     Band(id: '2', name: 'AC/DC', votes: 5),
     Band(id: '3', name: 'Guns n Roses', votes: 5),
     Band(id: '4', name: 'Bon Jovi', votes: 5),
-    Band(id: '5', name: 'Scorpions', votes: 5),
+    Band(id: '5 ', name: 'Scorpions', votes: 5),
   ];
 
   @override
