@@ -30,12 +30,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    final socketService = Provider.of<SocketService>(context, listen: false);
+    socketService.socket.off('active-bands');
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final socketService = Provider.of<SocketService>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('BandNames', style: TextStyle(color: Colors.black87),),
+        title: Text('BandNames', style: TextStyle(color: Colors.black87)),
         backgroundColor: Colors.white,
         elevation: 1,
         actions: <Widget>[
@@ -73,6 +80,7 @@ class _HomePageState extends State<HomePage> {
     final socketService = Provider.of<SocketService>(context, listen: false);
     
     return Dismissible(
+      key: Key(band.id),
       direction: DismissDirection.startToEnd,
       onDismissed: (_){
         socketService.socket.emit('delete.band', {'id': band.id});
@@ -85,7 +93,6 @@ class _HomePageState extends State<HomePage> {
           child: Text('Delete Band', style: TextStyle(color: Colors.white),),
         ),
       ),
-      key: Key(band.id),
       child: ListTile(
         leading: CircleAvatar(
           child: Text(band.name.substring(0,2)),
@@ -150,9 +157,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   void addBandToList(String name){
-    final socketService = Provider.of<SocketService>(context, listen: false);
     if (name.length > 1){
     //  Emitir: add-band {name: name}
+      final socketService = Provider.of<SocketService>(context, listen: false);
       socketService.socket.emit('add-band', {'name': name});
     }
     Navigator.pop(context);
@@ -163,10 +170,25 @@ class _HomePageState extends State<HomePage> {
       bands.forEach((band) {
         dataMap.putIfAbsent(band.name, () => band.votes.toDouble());
       });
+    final List<Color> colorList = [
+      Colors.blue[50],
+      Colors.blue[200],
+      Colors.pink[50],
+      Colors.pink[200],
+      Colors.yellow[50],
+      Colors.yellow[200],
+    ];
+
     return Container(
+        padding: EdgeInsets.only(top: 10),
         width: double.infinity,
-        height: 200.0,
-        child: PieChart(dataMap: dataMap)
+        height: 200,
+        child: PieChart(
+          dataMap: dataMap,
+          animationDuration: Duration(milliseconds: 800),
+          colorList: colorList,
+          chartType: ChartType.ring,
+        )
     );
   }
 }

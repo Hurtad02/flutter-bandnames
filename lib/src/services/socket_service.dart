@@ -14,7 +14,9 @@ class SocketService with ChangeNotifier{
   IO.Socket _socket;
 
   ServerStatus get serverStatus => this._serverStatus;
+
   IO.Socket get socket => this._socket;
+  Function get emit => this._socket.emit;
 
   SocketService(){
     this._initConfig();
@@ -23,7 +25,7 @@ class SocketService with ChangeNotifier{
   void _initConfig(){
 
     // Dart client
-    _socket = IO.io('http://flutter-socket-server-emmanuel.herokuapp.com/ ', {
+    this._socket = IO.io('https://serversocketapp.herokuapp.com/', {
       'transports': ['websocket'],
       'autoConnect': true,
     });
