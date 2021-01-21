@@ -47,16 +47,18 @@ class _HomePageState extends State<HomePage> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          _showGraph(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: bands.length,
-              itemBuilder: (context, i) => _bandTile(bands[i]),
+      body: Flexible(
+        child: Column(
+          children: <Widget>[
+            _showGraph(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: bands.length,
+                itemBuilder: (context, i) => _bandTile(bands[i]),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
